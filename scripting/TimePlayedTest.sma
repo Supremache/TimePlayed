@@ -13,7 +13,7 @@ new const szFormatRule[ ] = "%m/%d/%Y %H:%M:%S"
 
 public plugin_init( ) 
 {
-	register_plugin( "Time Played: Test", "", "Supremache" )
+	register_plugin( "Time Played: Test", "1.0.0", "Supremache" )
 	register_clcmd( "say /time", "@TimePlayed" )
 }
 
