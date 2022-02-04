@@ -1,6 +1,10 @@
 #include <amxmodx>
 #include <nvault_array>
 
+#if !defined client_disconnected
+	#define client_disconnected client_disconnect
+#endif
+
 #if !defined MAX_PLAYERS
 	const MAX_PLAYERS = 32
 #endif
