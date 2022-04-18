@@ -85,7 +85,7 @@ public plugin_init( )
 	register_cvar( "TimePlayed", Version, FCVAR_SERVER | FCVAR_SPONLY | FCVAR_UNLOGGED )
 	CC_SetPrefix( "^4[ Time Played ]" );
 	
-	g_cSaveMethod = register_cvar( "tp_save_method", "1" ) // How to save player's preferences: 0 = nVault | 1 = MySQL | 2 = SQLite
+	g_cSaveMethod = register_cvar( "tp_save_method", "0" ) // How to save player's preferences: 0 = nVault | 1 = MySQL | 2 = SQLite
 	g_cSaveType = register_cvar( "tp_save_type", "0" ) // ; Save player's data:  0 = Name | 1= IP | 2 = SteamID
 	
 	register_event( "SayText", "OnSayText", "a", "2=#Cstrike_Name_Change" )
@@ -364,14 +364,14 @@ public plugin_natives( )
 
 public _get_time_played( iPlugin, iParams )
 {
-	static id; id = get_param( 1 );
-	return g_iPlayer[ id ][ Time_Played ] + get_user_time( id, 1 );
+	return g_iPlayer[ get_param( 1 ) ][ Time_Played ];
 }
 
 public _get_first_seen( iPlugin, iParams )
 {
 	return g_iPlayer[ get_param( 1 ) ][ First_Seen ];
 }
+
 public _get_last_seen( iPlugin, iParams )
 {
 	return g_iPlayer[ get_param( 1 ) ][ Last_Seen ];
