@@ -207,7 +207,7 @@ public TimeList( id )
 		
 		get_user_name( iPlayer, szName, charsmax( szName ) );
 		format_time( szTime, charsmax( szTime ), "%m/%d/%Y %H:%M:%S", g_iPlayer[ iPlayer ][ First_Seen ] )
-		formatex( szData, charsmax( szData ), "\y%s\w Time:\r %i m\w Joined:\r %s", szName, g_iPlayer[ iPlayer ][ Time_Played ], szTime )
+		formatex( szData, charsmax( szData ), "\y%s\w Time:\r %i m\w Joined:\r %s", szName, g_iPlayer[ iPlayer ][ Time_Played ] / 60, szTime )
 		menu_additem( iMenu, szData )
 	}
 	menu_display( id, iMenu );
