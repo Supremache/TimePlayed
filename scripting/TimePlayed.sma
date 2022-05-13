@@ -3,7 +3,7 @@
 #include <sqlx>
 #include <cromchat>
 
-new const Version[ ] = "1.1.0";
+new const Version[ ] = "1.1.1";
 
 #if !defined client_disconnected
 	#define client_disconnected client_disconnect
@@ -247,7 +247,7 @@ ReadData( const id, DataTypes:iType )
 				}
 				case MySQL, SQLite:
 				{
-					formatex( szQuery , charsmax( szQuery ), "REPLACE INTO `%s` (`Player`, `Time Played`, `First Seen`, `Last Seen`) VALUES ('%s', '%i', '%i', '%i');",\
+					formatex( szQuery , charsmax( szQuery ), "REPLACE INTO `%s` (`Player`,`Time Played`,`First Seen`,`Last Seen`) VALUES ('%s','%i','%i','%i');",\
 					SQL_TABLE, g_iPlayer[ id ][ SaveInfo ], g_iPlayer[ id ][ Time_Played ], g_iPlayer[ id ][ First_Seen ], g_iPlayer[ id ][ Last_Seen ] );
 					SQL_ThreadQuery( g_SQLTuple, "QueryHandle", szQuery );
 				}
@@ -289,7 +289,7 @@ ReadData( const id, DataTypes:iType )
 		
 		case UPDATE:
 		{
-			if( !g_iPlayer[ id ][ First_Seen ] && !g_iPlayer[ id ][ Last_Seen ] ) 
+			if( !g_iPlayer[ id ][ First_Seen ] ) 
 			{
 				g_iPlayer[ id ][ First_Seen ] = g_iPlayer[ id ][ Last_Seen ] = get_systime( );
 			}
@@ -312,7 +312,7 @@ RunQuery( Handle:SQLConnection, const szQuery[ ], szSQLError[ ], iErrLen )
 	SQL_FreeHandle( iQuery );
 }
 
-public QueryHandle( iFailState, Handle:iQuery, const szError[ ], iErrCode, const szData[ ], iDataSize )
+public QueryHandle( iFailState, Handle:iQuery, const szError[ ], iErrCode, szData[ ], iDataSize )
 {
 	switch( iFailState )
 	{
@@ -324,9 +324,9 @@ public QueryHandle( iFailState, Handle:iQuery, const szError[ ], iErrCode, const
 	
 	if( SQL_NumResults( iQuery ) )
 	{
-		g_iPlayer[ id ][ Time_Played ] = SQL_ReadResult( iQuery, 0 )
-		g_iPlayer[ id ][ First_Seen ] = SQL_ReadResult( iQuery, 1 )
-		g_iPlayer[ id ][ Last_Seen ] = SQL_ReadResult( iQuery, 2 )
+		g_iPlayer[ id ][ Time_Played ] = SQL_ReadResult( iQuery, SQL_FieldNameToNum( iQuery, "Time Played" ) )
+		g_iPlayer[ id ][ First_Seen ] = SQL_ReadResult( iQuery, SQL_FieldNameToNum( iQuery, "First Seen" ) )
+		g_iPlayer[ id ][ Last_Seen ] = SQL_ReadResult( iQuery, SQL_FieldNameToNum( iQuery, "Last Seen" ) )
 	}
 } 
 
@@ -380,7 +380,6 @@ public _get_first_seen( iPlugin, iParams )
 {
 	return g_iPlayer[ get_param( 1 ) ][ First_Seen ];
 }
-
 public _get_last_seen( iPlugin, iParams )
 {
 	return g_iPlayer[ get_param( 1 ) ][ Last_Seen ];
