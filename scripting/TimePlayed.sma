@@ -1,9 +1,10 @@
 #include <amxmodx>
 #include <nvault>
 #include <sqlx>
+#include <fakemeta>
 #include <cromchat>
 
-new const Version[ ] = "1.1.1";
+new const Version[ ] = "1.1.2";
 
 #if !defined client_disconnected
 	#define client_disconnected client_disconnect
@@ -260,13 +261,13 @@ ReadData( const id, DataTypes:iType )
 			{
 				case Nvault:
 				{
-					new szData[ 3 ][ MAX_TIME_LENGTH ];
+					new szVaultData[ 3 ][ MAX_TIME_LENGTH ];
 					nvault_get( g_iVault, g_iPlayer[ id ][ SaveInfo ], szQuery, charsmax( szQuery ) )
-					parse( szQuery, szData[ 0 ], charsmax( szData[ ] ), szData[ 1 ], charsmax( szData[ ] ), szData[ 2 ], charsmax( szData[ ] ) )
+					parse( szQuery, szVaultData[ 0 ], charsmax( szVaultData[ ] ), szVaultData[ 1 ], charsmax( szVaultData[ ] ), szVaultData[ 2 ], charsmax( szVaultData[ ] ) )
 					
-					g_iPlayer[ id ][ Time_Played ] = str_to_num( szData[ 0 ] )
-					g_iPlayer[ id ][ First_Seen ] = str_to_num( szData[ 1 ] )
-					g_iPlayer[ id ][ Last_Seen ] = str_to_num( szData[ 2 ] )
+					g_iPlayer[ id ][ Time_Played ] = str_to_num( szVaultData[ 0 ] )
+					g_iPlayer[ id ][ First_Seen ] = str_to_num( szVaultData[ 1 ] )
+					g_iPlayer[ id ][ Last_Seen ] = str_to_num( szVaultData[ 2 ] )
 					//nvault_get_array( g_iVault, g_iPlayer[ id ][ SaveInfo ], g_iPlayer[ id ][ PlayerData:0 ], sizeof( g_iPlayer[ ] ) );
 				}
 				case MySQL, SQLite:
